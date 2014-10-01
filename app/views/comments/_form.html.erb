@@ -1,0 +1,38 @@
+<div class="panel comment-panel">
+	<div class="panel-body comment-form">
+		<% if user_signed_in? %>
+			<%= render 'comments/warning' %>
+			<div class="select-picture">
+				<i class="fa fa-file-image-o pull-right"></i>
+			</div>
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="active"><a href="#edit" role="tab" data-toggle="tab" class="no-border">编辑</a></li>
+			  <li><a href="#preview" role="tab" data-toggle="tab" id="markdown" class="no-border">预览</a></li>
+			</ul>
+
+			<%= form_for([@topic, object], :html => {:multipart => true }, remote: true) do |f| %>
+				<div class="tab-content comment-form">
+					  <div class="tab-pane active" id="edit">
+						  <%= f.text_area :body, id: "user-comment-content", class: "form-control comment ", placeholder: "Write comment here..." %>
+						  <%= f.file_field :file, multiple: true, class: "pull-right upload-file" %>
+					  </div>
+					  <div class="tab-pane" id="preview">
+					  </div>
+				</div>
+					  <%= f.submit "提交回复", class: "btn btn-primary comment-submit" %>
+			<% end %>
+		<% else %>
+		  <div class="text-center">
+		  	你需要先
+		  	<%= link_to new_user_session_path do %>
+		  	  <div class="btn btn-sm btn-success">登录</div>
+		  	<% end %>
+		  	或
+		  	<%= link_to new_user_registration_path do %>
+		  	  <div class="btn btn-sm btn-primary">注册</div>
+		  	<% end %>
+		  	才能进行回复
+		  </div>
+		<% end %>
+	</div>
+</div>

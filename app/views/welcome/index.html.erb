@@ -1,0 +1,38 @@
+<% provide(:title, "Home") %>
+<div class="panel panel-info excellent-topics">
+	<div class="panel-heading">
+		<div class="panel-title text-center gray">
+			<h3>社区精华帖</h3>
+		</div>
+	</div>
+	<div class="panel-body">
+		<ul class="list-group row">
+		  <% @topics.each do |topic| %>
+				<li class="list-group-item col-sm-6 excellent-topic">
+
+				  	<%= link_to(topic.user, class: "l-t-avatar pull-left") do %>
+				        <%= image_tag(topic.user.avatar_url(:small), class: "t-avatar") %>
+				    <% end %>
+
+				    <div class="right-info">
+					  <div class="infos">
+					  	  <%= link_to topic.title, topic %>
+						<div class="r-count pull-right">
+					      <span class="badge reply-count-badge"><%= topic.comments.size %></span>
+						</div>
+					  </div>
+					</div>
+
+					<span class="last-reply">
+						<% if topic.comments.size > 0 %>
+						最后由 <%= link_to topic.comments.last.user.name, topic.comments.last.user %> 于 <%= time_ago_in_words(topic.comments.last.created_at) %> 前回复
+						<% else %>
+						暂无评论.
+						<% end %>
+					</span>
+
+			    </li>
+			<% end %>
+		</ul>
+    </div>
+</div>

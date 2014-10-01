@@ -1,0 +1,31 @@
+	<div class="panel panel-default">
+		<div class="panel-heading topic-heading">
+			<h1><%= @topic.title %></h1>
+			<p class="time">
+			  <%= time_ago_in_words(@topic.created_at) %> ago.
+			</p>
+			<%= link_to(@topic.user) do %>
+		        <%= image_tag(@topic.user.avatar_url(:small), class: "pull-right t-avatar") %>
+			<% end %>
+
+		</div>
+
+		<div class="panel-body">
+			<%= markdown(@topic.content) %>
+			<% if user_signed_in? %>
+				<div class="tools pull-right gray">
+					<% if @topic.user == current_user %>
+					   <%= link_to (@topic), remote: true, method: :delete, data: { confirm: "Are you sure?" } do %>
+					    <i class="fa fa-remove gray" title="删除"></i>
+					   <% end %>
+					   <%= link_to (edit_topic_path) do %>
+					 	  <i class="fa fa-pencil gray" title="编辑"></i>
+					   <% end %>
+					 <% end %> 
+			        <span id="like-topic-<%= @topic.id %>">
+			          <%= likeable_likes_tag @likeable %>
+			        </span>
+				</div>
+			<% end %>
+		</div>
+	</div>

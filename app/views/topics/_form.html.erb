@@ -1,0 +1,25 @@
+<%= render 'shared/error_messages', object: @topic %>
+<div class="topic-form">
+	<% if signed_in? %>
+	    <%= form_for(@topic, remote: true, html: { multipart: true }) do |f| %>
+		    <%= f.text_field :title, class: "form-control", placeholder: "Title" %>
+			<div class="select-picture">
+				<i class="fa fa-file-image-o pull-right"></i>
+			</div>
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="active"><a href="#edit" role="tab" data-toggle="tab" class="no-border">编辑</a></li>
+			  <li><a href="#preview" role="tab" data-toggle="tab" id="markdown" class="no-border">预览</a></li>
+			</ul>
+
+			<div class="tab-content comment-form">
+			  <div class="tab-pane active" id="edit">
+				  <%= f.text_area :content, class: "form-control", placeholder: "Compose new topic..." %>
+				  <%= f.file_field :file, multiple: true, class: "pull-right upload-file" %>
+			  </div>
+			  <div class="tab-pane" id="preview">
+			  </div>
+				  <%= f.submit "Done", class: "btn btn-large btn-primary" %>
+				<% end %>
+			</div>
+	<% end %>
+</div>

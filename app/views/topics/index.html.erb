@@ -1,0 +1,32 @@
+<%= provide(:title, "Topics") %>
+<div class="col-md-8">
+	<div class="panel panel-info">
+		<div class="panel-heading">全部帖子</div>
+		<div class="panel-body">
+			<ul class="list-group topic-list">
+				<% if @topics.current_page == 1 %>
+					<%= render 'topics_list', topics: @suggest_topics %>
+				<% end %>
+				<%= render 'topics_list', topics: @topics %>
+			</ul>
+		</div>
+		  <% if @topics.count >= 15 %>
+			<div class="panel-footer text-right remove-padding-horizontal pager-footer">
+				<%= will_paginate @topics, renderer: BootstrapPagination::Rails %>
+			</div>
+		  <% end %>
+	</div>
+</div>
+<div class="col-md-4">
+	<div class="panel">
+		<div class="panel-body t-panel">
+			<% if user_signed_in? %>
+			  <%= link_to(new_topic_path, class: "btn btn-info btn-lg") do %>
+			    <i class="fa fa-1x fa-pencil"> 发布新帖</i>
+			  <% end %>
+			<% else %>
+			  Something here.
+			<% end %>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,33 @@
+<% provide(:title, "Notifications") %>
+<div class="col-md-12">
+	<div class="panel panel-info">
+		<div class="panel-heading panel-info notifications-heading">
+			<div class="pull-left notifications-count">
+			  通知: <%= @notifications.count %> 条
+		    </div>
+		    <div class="pull-right">
+		    	<%= link_to (clear_notifications_path), remote: true, method: :delete, data: { confirm: "Are you sure", disable_with: "清空中..." }, class: "btn btn-small btn-danger pull-right" do %>
+		    		清空
+		    	<% end %>
+		    </div>
+		</div>
+		<div class="panel-body">
+			<ul class="list-group">
+				<% if @notifications.any? %>
+					<% @notifications.each do |notification| %>
+					<%= render "notifications/notification/#{notification.name}", notification: notification %>
+					<% end %>
+				<% else %>
+					<li class="no-result list-group-item text-center gray">
+						No notifications
+					</li>
+				<% end %>
+			</ul>
+		</div>
+		<% if @notifications.count > 20 %>
+			<div class="panel-footer text-right remove-padding-horizontal pager-footer">
+				<%= will_paginate @notifications, renderer: BootstrapPagination::Rails %>
+			</div>
+		<% end %>
+	</div>
+</div>

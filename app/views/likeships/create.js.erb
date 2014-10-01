@@ -1,0 +1,5 @@
+if('<%= params[:likeable_type] %>' == 'Topic'){
+	$('#like-topic-<%= params[:likeable_id] %>').empty().append("<%= j(likeable_likes_tag @likeable) %>")
+}else {
+	$('#like-comment-<%= params[:likeable_id] %>').empty().append("<%= j(likeable_likes_tag @likeable) %>")
+}

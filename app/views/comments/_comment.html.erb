@@ -1,0 +1,42 @@
+<% if @comments.any? %>
+	<% @comments.each do |comment| %>
+		<li class="list-group-item" id="comment-<%= comment.id %>">
+		  <%= link_to(comment.user) do %>
+		        <%= image_tag(comment.user.avatar_url(:small), class: "pull-left t-avatar") %>
+		  <% end %>
+		  <span class="comment-title gray">
+			  #<%= comment.id %> 
+			  <%= link_to comment.user.name, comment.user, class: "gray commenter" %>
+		  </span>
+		  <% if user_signed_in? %>
+			  <span class="operate pull-right">
+			        <span id="like-comment-<%= comment.id %>">
+			          <% @likeable = Likeship.likeable(comment) %>
+			          <%= likeable_likes_tag @likeable %>
+			        </span>
+				  <% unless comment.user == current_user %>
+			  		<a href="script:void(0)" class="reply-user" data-name="<%= comment.user.name %>">
+					    <i class="fa fa-reply"></i>
+			  		</a>
+			  	  <% end %>
+				  <% if comment.user == current_user || current_user.admin? %>
+					  <%= link_to ([@topic, comment]), remote: true, method: :delete, data: { confirm: "Are you sure?" } do %>
+					    <i class="fa fa-trash-o"></i>
+					  <% end %>
+					  <%= link_to(edit_topic_comment_path(@topic, comment)) do %>
+					    <i class="fa fa-pencil"></i>
+					  <% end %>
+				  <% end %>
+				</span>
+			<% end %>
+		  
+		  <div class="comment-body">
+			  <%= markdown(comment.body) %>
+		  </div>
+		</li>
+	<% end %>
+<% else %>
+	<li class="no-result text-center gray">
+		暂无评论
+	</li>
+<% end %>

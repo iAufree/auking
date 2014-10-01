@@ -1,0 +1,5 @@
+$(function(){
+    $('#com').html("<%= j render 'comments/comment' %>");
+    $('#comment-<%= @comment.id %>').addClass('animated bounceInLeft');
+    $('textarea').val("");
+});

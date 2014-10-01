@@ -1,0 +1,38 @@
+<%= provide(:title, @topic.title) %>
+<div class="col-md-8 topic">
+	<%= render 'topics/topic' %>
+	
+	<div class="comments">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Comments
+			</div>
+			<div class="panel-body">
+				<ul class="list-group">
+					<div id="com">
+						<%= render 'comments/comment' %>
+					</div>
+				</ul>
+			</div>
+			<% if @topic.comments.size >= 30 %>
+				<div class="panel-footer text-right remove-padding-horizontal pager-footer">
+					<%= will_paginate @comments, renderer: BootstrapPagination::Rails %>
+				</div>
+			<% end %>
+		</div>
+			<%= render 'comments/form', object: @topic.comments.build %>
+	</div>
+
+</div>
+<div class="col-md-4">
+	<div class="panel panel-info more-topics">
+		<div class="panel-heading">更多文章</div>
+		<div class="panel-body">
+			<% @topics.each do |topic| %>
+				<%= link_to(topic) do %>
+				  <%= topic.title %> <br>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+</div>

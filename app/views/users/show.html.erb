@@ -1,0 +1,77 @@
+<% provide(:title, @user.name) %>
+<div class="col-md-3 col-md-offset-1 user-left">
+  <div class="user-info">
+    <div class="user-avatar">
+        <%= image_tag(@user.avatar_url(:large)) %>
+    </div>
+    <ul>  
+      <li>
+        <span>身份: </span>
+        <% if @user.admin? %>
+          <span class="badge admin-badge">管理员</span>
+        <% else %>
+          <span class="badge">普通用户</span>
+        <% end %>
+      </li>
+      <li><span>排名: </span>第 <%= @user.id %> 位</li>
+      <li><span>性别: </span><%= @user.gender_txt %></li>
+      <% if @user.qq? %>
+        <li><span>Q Q:  </span><%= @user.qq %></li>
+      <% end %>
+      <% if @user.city? %>
+        <li><span>城市: </span><%= @user.city %></li>
+      <% end %>
+      <% if @user.school_txt.empty? %>
+        <li><span>学院: </span><%= @user.school_txt %></li>
+      <% end %>
+      <% if @user.description? %>
+        <li><span>说明: </span><%= @user.description %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<div class="col-md-7 user-status">
+  <div class="panel panel-info">
+    <div class="panel-heading">最新动态</div>
+    <div class="panel-body">
+      <ul id="user-tab" class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+          <a href="#newest-topics" role="tab" data-toggle="tab">最新主题</a>
+        </li>
+        <li role="presentation">
+          <a href="#newest-comments" role="tab" data-toggle="tab">最近回复</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="newest-topics" class="tab-pane fade active in recent-topics">
+          <div class="list-group">
+            <% @topics.each do |topic|  %>
+            <div class="list-group-item">
+              <div class="title">
+                <%= link_to topic.title, topic %>
+              </div>
+              <div class="info">
+                0 人喜欢 • <%= topic.comments.size %> 条回复.
+              </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+        <div id="newest-comments" class="tab-pane fade recent-comment">
+          <div class="list-group">
+          <% @comments.each do |comment| %>
+            <div class="list-group-item">
+              <div class="title">
+                <%= link_to comment.topic.title, comment.topic %>
+              </div>
+              <div class="body">
+                <%= markdown(comment.body) %>
+              </div>
+            </div>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

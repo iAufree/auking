@@ -1,0 +1,17 @@
+<% comment = notification.subject %>
+<% topic = comment.topic %>
+<li id="notification-<%= notification.id %>" class="list-group-item">
+	<%= link_to(comment.user) do %>
+  	  <%= image_tag(comment.user.avatar_url(:small), class: "pull-left t-avatar") %>
+  	<% end %>
+  	<span class="comment-title gray">
+	  	<%= link_to comment.user.name, comment.user %> 回复了你的主题
+	  	<%= link_to topic.title, topic %>
+  	</span>
+  	<%= link_to (notification_path(notification)), remote: true, method: :delete, data: { confirm: "Are you sure" }, class: "pull-right" do %>
+  	  <i class="fa fa-trash-o"></i>
+  	<% end %>
+  	<div class="comment-body">
+	  	<%= markdown(comment.body) %>
+  	</div>
+</li>
